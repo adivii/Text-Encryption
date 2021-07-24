@@ -18,9 +18,13 @@ void decrypt();
 
 // Additional Function
 void pauseConsole();
+long randomNumber(long begin, long end);
 
 int main(){
+	srand(time(NULL)); // Generate seed using time (will change every second)
+
     _initFile();
+	generate_key();
 }
 
 void _initFile(){
@@ -51,17 +55,53 @@ void _initFile(){
     log_file.close();
 }
 
+void generate_key(){
+	string charTemp = "abcdefghijklmnopqrstuvwxyz ";
+	string enChar;
+	string::iterator it;
+	int x;
+
+	while(enChar.size() < 27){
+		x = randomNumber(1,27);
+		it = find(enChar.begin(), enChar.end(), charTemp[x]);
+
+		if(it == enChar.end()){
+			enChar.push_back(charTemp[x]);
+		}
+	}
+
+	ofstream key_file;
+
+	key_file.open("main/key.txt", ios::out);
+
+	for(int i = 0;i < charTemp.size();i++){
+		key_file << charTemp[i] << " " << enChar[i] << endl;
+	}
+
+	key_file.close();
+}
+
 void pauseConsole(){
-  // Buat dan set nilai ch menjadi NULL (\0)
-  char ch = '\0';
+		// Buat dan set nilai ch menjadi NULL (\0)
+    char ch = '\0';
 
-  cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Mengabaikan newline yang tersisa di buffer
-  cout << "\nPress any key to continue . . . ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Mengabaikan newline yang tersisa di buffer
+    cout << "\nPress any key to continue . . . ";
 
-  // Lakukan perulangan selama ch masih NULL
-  do{
-    cin.get(ch); // Baca input user
-  }while (ch == '\0');
+    // Lakukan perulangan selama ch masih NULL
+    do{
+        cin.get(ch); // Baca input user
+    }while (ch == '\0');
 
-  cout << endl;
+    cout << endl;
+}
+
+long randomNumber(long begin, long end){
+  long result;
+  long baseAdd;
+
+  baseAdd = (end - begin) + 1;
+  result = rand() % baseAdd;
+
+  return result + begin;
 }
