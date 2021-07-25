@@ -28,31 +28,31 @@ int main(){
 }
 
 void _initFile(){
-    // Create directory for text file (if there are none)
-    system("mkdir main");
-    system("mkdir text");
+  // Create directory for text file (if there are none)
+  system("mkdir main");
+  system("mkdir text");
 
-    // Create variable used to open text file
-    ofstream normal_text, encrypted_text, key_file, log_file;
+  // Create variable used to open text file
+  ofstream normal_text, encrypted_text, key_file, log_file;
 
-    // Open file in append mode (this will create new file if file not found, but won't overwrite the file if file found)
-    normal_text.open("text/normal.txt", ios::app);
-    encrypted_text.open("text/encrypted.txt", ios::app);
-    key_file.open("main/key.txt", ios::app);
-    log_file.open("main/log.txt", ios::app);
+  // Open file in append mode (this will create new file if file not found, but won't overwrite the file if file found)
+  normal_text.open("text/normal.txt", ios::app);
+  encrypted_text.open("text/encrypted.txt", ios::app);
+  key_file.open("main/key.txt", ios::app);
+  log_file.open("main/log.txt", ios::app);
 
-    // Check if file can't be initialized
-    if(normal_text.fail() || encrypted_text.fail() || key_file.fail() || log_file.fail()){
-        cout << "File Initialization Failed" << endl;
-        pauseConsole();
-        exit(0); // Abort Operation
-    }
+  // Check if file can't be initialized
+  if(normal_text.fail() || encrypted_text.fail() || key_file.fail() || log_file.fail()){
+    cout << "File Initialization Failed" << endl;
+    pauseConsole();
+    exit(0); // Abort Operation
+  }
 
-    // Close opened files
-    normal_text.close();
-    encrypted_text.close();
-    key_file.close();
-    log_file.close();
+  // Close opened files
+  normal_text.close();
+  encrypted_text.close();
+  key_file.close();
+  log_file.close();
 }
 
 void generate_key(){
@@ -62,7 +62,7 @@ void generate_key(){
 	int x;
 
 	while(enChar.size() < 27){
-		x = randomNumber(1,27);
+		x = randomNumber(0,26);
 		it = find(enChar.begin(), enChar.end(), charTemp[x]);
 
 		if(it == enChar.end()){
@@ -75,25 +75,25 @@ void generate_key(){
 	key_file.open("main/key.txt", ios::out);
 
 	for(int i = 0;i < charTemp.size();i++){
-		key_file << charTemp[i] << " " << enChar[i] << endl;
+		key_file << charTemp[i] << "#" << enChar[i] << endl;
 	}
 
 	key_file.close();
 }
 
 void pauseConsole(){
-		// Buat dan set nilai ch menjadi NULL (\0)
-    char ch = '\0';
+	// Buat dan set nilai ch menjadi NULL (\0)
+  char ch = '\0';
 
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Mengabaikan newline yang tersisa di buffer
-    cout << "\nPress any key to continue . . . ";
+  cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Mengabaikan newline yang tersisa di buffer
+  cout << "\nPress any key to continue . . . ";
 
-    // Lakukan perulangan selama ch masih NULL
-    do{
-        cin.get(ch); // Baca input user
-    }while (ch == '\0');
+  // Lakukan perulangan selama ch masih NULL
+  do{
+    cin.get(ch); // Baca input user
+  }while (ch == '\0');
 
-    cout << endl;
+  cout << endl;
 }
 
 long randomNumber(long begin, long end){
